@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -12,9 +13,16 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // $user1= User::find(2);
+        // // dd($user1);
+        // $user1->assignRole('writer');
+        $posts=Post::All();
+        if($request->has('search')){
+            $posts=Post::where('title','like',"%{$request->search}%")->get();
+        }
+        return view('Posts.index',compact('posts'));
     }
 
     /**
@@ -24,7 +32,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('Posts.create');
+
     }
 
     /**
